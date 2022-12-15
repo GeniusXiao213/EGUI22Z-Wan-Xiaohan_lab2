@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<html id="homepage">
+    <head>
+        <title>XIAOHAN's Library</title>
+    <link rel="stylesheet" href="~/css/style.css" />
+    </head>
+    <body>
+        <div class="text-center">
+        <h1 class="display-4">Welcome to XIAOHAN's Library!!!</h1>
+        <h2>Please log in or register:)</h2>
+        <br>
+        @if (TempData["cancelacc"] != null)
+        {
+             <br />
+     <div class="row mb-3">
+             <div width="100%">
+                 <div class='alert alert-success alert-dismissible fade show' role="alert">
+                    <strong>@TempData["cancelacc"]</strong>
+                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+                 </div>
+             </div>
+         </div>
+        }
+
+</div>
+    </body>
+</html>

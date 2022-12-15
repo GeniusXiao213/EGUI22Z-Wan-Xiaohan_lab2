@@ -1,0 +1,43 @@
+﻿@model LibrarySystem.Models.CreateBookList
+
+@{
+    Layout = "_Layout2";
+}
+
+@{
+    ViewBag.Title = "Search Book";
+}
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Publisher</th>
+            <th>Publish Date</th>
+            <th>Reserved Date</th>
+            <th>Lease Date</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Books)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Author</td>
+                <td>@item.Title</td>
+                <td>@item.Publisher</td>
+                <td>@item.Date</td>
+                <td>@item.Reserved</td>
+                <td>@item.Leased</td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="ViewBook">Back to View all Books</a>

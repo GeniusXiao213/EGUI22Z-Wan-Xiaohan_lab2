@@ -1,0 +1,94 @@
+﻿@model LibrarySystem.Models.CreateBookList
+@{
+    Layout = "_Layout2";
+}
+
+@{
+    ViewBag.Title = "ViewBooks";
+}
+
+<h2>View Books</h2>
+
+ @if (TempData["borrowbook"] != null)
+ {
+     <br />
+     <div class="row mb-3">
+         <div width="100%">
+             <div class='alert alert-success alert-dismissible fade show' role="alert">
+                <strong>@TempData["borrowbook"]</strong>
+                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+             </div>
+         </div>
+     </div>
+ }
+
+  @if (TempData["reservebook"] != null)
+ {
+     <br />
+     <div class="row mb-3">
+         <div width="100%">
+             <div class='alert alert-success alert-dismissible fade show' role="alert">
+                <strong>@TempData["reservebook"]</strong>
+                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+             </div>
+         </div>
+     </div>
+ }
+
+@using (Html.BeginForm("SearchBook", "UserHome"))
+{
+    <input type="search" placeholder="Enter Book Info..." name="searching" style="height:30px;width:500px;" />
+    <input type="submit" value="Search" class="btn btn-primary" />
+
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Publisher</th>
+            <th>Publish Date</th>
+            <th>Reserved Date</th>
+            <th>Leased Date</th>
+            <th>Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Books)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Author</td>
+                <td>@item.Title</td>
+                <td>@item.Publisher</td>
+                <td>@item.Date</td>
+                <td>@item.Reserved</td>
+                <td>@item.Leased</td>
+                <td>
+                    @*<a class="btn btn-primary btn-sm" style="height:30px;width:80px" href="UserHomeController/BorrowBook"> Borrow</a>*@
+                    @*<input type="hidden" name="id" value="@item.Id">
+                    <input type="hidden" name="user" value="@item.User">
+                    <a class="btn btn-primary btn-sm" style="height:30px;width:80px" onclick="location.href='@Url.Action("BorrowBook", "UserHome")'">Borrrow</a>*@
+                    @using(Html.BeginForm("BorrowBook","UserHome"))
+                    {
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <input type="hidden" name="user" value="@item.User" />
+                        <input class="btn btn-primary btn-sm" style="height:30px;width:80px" type="submit" value="Borrow" />
+                    }
+                    
+                    <br/>
+                    @using (Html.BeginForm("ReserveBook", "UserHome"))
+                    {
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <input type="hidden" name="user" value="@item.User" />
+                            <input class="btn btn-primary btn-sm" style="height:30px;width:80px" type="submit" value="Reserve" />
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,152 @@
+﻿@model LibrarySystem.Models.CreateBookList
+
+@{
+    Layout = "_Layout1";
+}
+
+@{
+    ViewBag.Title = "ViewBooks";
+}
+
+<h2>View Books</h2>
+
+@if (TempData["borrow"] != null)
+{
+    <br />
+    <div class="row mb-3">
+        <div width="100%">
+            <div class='alert alert-success alert-dismissible fade show' role="alert">
+                <strong>@TempData["borrow"]</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+            </div>
+        </div>
+    </div>
+}
+
+@if (TempData["reserve"] != null)
+{
+    <br />
+    <div class="row mb-3">
+        <div width="100%">
+            <div class='alert alert-success alert-dismissible fade show' role="alert">
+                <strong>@TempData["reserve"]</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+            </div>
+        </div>
+    </div>
+}
+
+@if (TempData["cancel"] != null)
+ {
+     <br />
+     <div class="row mb-3">
+         <div width="100%">
+             <div class='alert alert-success alert-dismissible fade show' role="alert">
+                <strong>@TempData["cancel"]</strong>
+                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+             </div>
+         </div>
+     </div>
+ }
+
+  @if (TempData["return"] != null)
+ {
+     <br />
+     <div class="row mb-3">
+         <div width="100%">
+             <div class='alert alert-success alert-dismissible fade show' role="alert">
+                <strong>@TempData["return"]</strong>
+                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+             </div>
+         </div>
+     </div>
+ }
+
+ @*@using(Html.BeginForm("SearchBook","Admin",FormMethod.Get))
+{
+    @Html.TextBox("searching")
+    <input type="submit" value="Search" class="btn btn-primary"/>
+
+}*@
+@using (Html.BeginForm("SearchBook", "Admin"))
+{
+    <input type="search" placeholder="Enter Book Info..." name="searching" style="height:30px;width:500px;" />
+    <input type="submit" value="Search" class="btn btn-primary" />
+
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Publisher</th>
+            <th>Publish Date</th>
+            <th>Current User</th>
+            <th>Reserved Date</th>
+            <th>Lease Date</th>
+            <th>Action1</th>
+            <th>Action2</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Books)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Author</td>
+                <td>@item.Title</td>
+                <td>@item.Publisher</td>
+                <td>@item.Date</td>
+                <td>@item.User</td>
+                <td>@item.Reserved</td>
+                <td>@item.Leased</td>
+                <td>
+                    @using (Html.BeginForm("ReserveBook", "Admin"))
+                    {
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <input type="hidden" name="user" value="@item.User" />
+                        <input class="btn btn-primary btn-sm" style="height:30px;width:80px" type="submit" value="Reserve" />
+                    }
+
+                    <br />
+                    @using (Html.BeginForm("BorrowBook", "Admin"))
+                    {
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <input type="hidden" name="user" value="@item.User" />
+                        <input class="btn btn-primary btn-sm" style="height:30px;width:80px" type="submit" value="Lease" />
+                    }
+
+
+                    @*<a class="btn btn-primary btn-sm" style="height:30px;width:80px" href=#>Reserve </a>
+                    <br /><br />
+                    <a class="btn btn-primary btn-sm" style="height:30px;width:80px" href=#>Lease</a>*@
+                    
+                </td>
+                <td>
+                    @using (Html.BeginForm("CancelReservation", "Admin"))
+                    {
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <input type="hidden" name="reserved" value="@item.Reserved" />
+                        <input type="hidden" name="user" value="@item.User" />
+                        <input class="btn btn-primary btn-sm" style="height:30px;width:80px" type="submit" value="Cancel" />
+                    }
+                    <br/>
+
+                    @using (Html.BeginForm("ReturnBook", "Admin"))
+                    {
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <input type="hidden" name="leased" value="@item.Leased" />
+                            <input type="hidden" name="user" value="@item.User" />
+                            <input class="btn btn-primary btn-sm" style="height:30px;width:80px" type="submit" value="Return" />
+                    }
+
+                    @*<a class="btn btn-primary btn-sm" style="height:30px;width:80px" href=#>Return Book</a>*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,60 @@
+﻿@model LibrarySystem.Models.CreateBookList
+@{
+    Layout = "_Layout2";
+}
+
+@{
+    ViewBag.Title = "View My Reservation";
+}
+
+<h2>View My Reservation</h2>
+
+ @if (TempData["cancelreservation"] != null)
+ {
+     <br />
+     <div class="row mb-3">
+         <div width="100%">
+             <div class='alert alert-success alert-dismissible fade show' role="alert">
+                <strong>@TempData["cancelreservation"]</strong>
+                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+             </div>
+         </div>
+     </div>
+ }
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Publisher</th>
+            <th>Publish Date</th>
+            <th>Reserved Date</th>
+            <th>Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Books)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Author</td>
+                <td>@item.Title</td>
+                <td>@item.Publisher</td>
+                <td>@item.Date</td>
+                <td>@item.Reserved</td>
+                <td>
+                    @using (Html.BeginForm("CancelReservation", "UserHome"))
+                    {
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <input type="hidden" name="reserved" value="@item.Reserved" />
+                            <input type="hidden" name="user" value="@item.User" />
+                            <input class="btn btn-primary btn-sm" style="height:30px;width:150px" type="submit" value="Cancel Reservation" />
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
